@@ -6,6 +6,6 @@ export const MoviesContainer = styled.div`
   align-items: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 20px 0;
 `;

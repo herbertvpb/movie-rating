@@ -7,7 +7,7 @@ import Detail from '../pages/Detail';
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/movie-detail" component={Detail} />
+    <Route path="/movie-detail/:movie" component={Detail} />
   </Switch>
 );
 

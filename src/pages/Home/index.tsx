@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import { MoviesContainer } from './styles';
 import EmptyList from '../../components/EmptyList';
 import api from '../../services/api';
+import Loader from '../../components/Loader';
 
 interface IMovie {
   id: string;
@@ -14,11 +15,13 @@ interface IMovie {
 const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState<string>();
   const [movies, setMovies] = useState<IMovie[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const searchMovies = async () => {
-    const response = await api.get(`/search/${searchValue}`);
-
-    setMovies(response.data.titles);
+    setLoading(true);
+    const { data } = await api.get(`/search/${searchValue}`);
+    setMovies(data.titles);
+    setLoading(false);
   };
 
   const handleInputChange = async (e: any) => setSearchValue(e.target.value);
@@ -29,7 +32,9 @@ const Home: React.FC = () => {
         handleInputChange={handleInputChange}
         onSearchSubmit={searchMovies}
       />
-      {movies.length ? (
+      {loading && <Loader />}
+      {!loading && movies.length === 0 && <EmptyList />}
+      {!loading && movies.length > 0 && (
         <MoviesContainer>
           {movies.map(movie => (
             <Card
@@ -40,8 +45,6 @@ const Home: React.FC = () => {
             />
           ))}
         </MoviesContainer>
-      ) : (
-        <EmptyList />
       )}
     </>
   );

@@ -10,7 +10,7 @@ interface CardProps {
 
 const Card = ({ id, image, title }: CardProps) => {
   return (
-    <CardContainer href="movie-detail">
+    <CardContainer href={`movie-detail/${id}`}>
       <img src={image} alt="Poster" />
       <TitleBox>
         <strong>{title}</strong>

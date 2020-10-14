@@ -4,11 +4,22 @@ import logo from '../../assets/logo.png';
 import Search from '../Search';
 import { HeaderContainer } from './styles';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  handleInputChange: (e: any) => void;
+  onSearchSubmit: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  handleInputChange,
+  onSearchSubmit,
+}: HeaderProps) => {
   return (
     <HeaderContainer>
       <img src={logo} alt="Movie Rating" />
-      <Search />
+      <Search
+        handleInputChange={handleInputChange}
+        onSearchSubmit={onSearchSubmit}
+      />
     </HeaderContainer>
   );
 };

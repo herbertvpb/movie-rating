@@ -6,6 +6,11 @@ export const CardContainer = styled.a`
   width: 280px;
   height: 560px;
   text-decoration: none;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
 
   img {
     width: 100%;

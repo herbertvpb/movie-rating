@@ -1,43 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import { MoviesContainer } from './styles';
+import EmptyList from '../../components/EmptyList';
+import api from '../../services/api';
 
-const movies = [
-  {
-    title: 'Inception',
-    image:
-      'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@.jpg',
-    id: 'tt1375666',
-  },
-  {
-    title: 'Inception',
-    image:
-      'https://m.media-amazon.com/images/M/MV5BYWJmYWJmNWMtZTBmNy00M2MzLTg5ZWEtOGU5ZWRiYTE0ZjVmXkEyXkFqcGdeQXVyNzkyOTM2MjE@.jpg',
-    id: 'tt7321322',
-  },
-  {
-    title: 'Inception',
-    image:
-      'https://m.media-amazon.com/images/M/MV5BNzhiZDQ4NTQtNmQzYy00ZTdlLWJiNzktZTY0NmQ2OGVjZDkxXkEyXkFqcGdeQXVyNTEyMjM2MjE@.jpg',
-    id: 'tt1886283',
-  },
-];
+interface IMovie {
+  id: string;
+  title: string;
+  image: string;
+}
 
 const Home: React.FC = () => {
+  const [searchValue, setSearchValue] = useState<string>();
+  const [movies, setMovies] = useState<IMovie[]>([]);
+
+  const searchMovies = async () => {
+    const response = await api.get(`/search/${searchValue}`);
+
+    setMovies(response.data.titles);
+  };
+
+  const handleInputChange = async (e: any) => setSearchValue(e.target.value);
+
   return (
     <>
-      <Header />
-      <MoviesContainer>
-        {movies.map(movie => (
-          <Card
-            key={movie.id}
-            id={movie.id}
-            image={movie.image}
-            title={movie.title}
-          />
-        ))}
-      </MoviesContainer>
+      <Header
+        handleInputChange={handleInputChange}
+        onSearchSubmit={searchMovies}
+      />
+      {movies.length ? (
+        <MoviesContainer>
+          {movies.map(movie => (
+            <Card
+              key={movie.id}
+              id={movie.id}
+              image={movie.image}
+              title={movie.title}
+            />
+          ))}
+        </MoviesContainer>
+      ) : (
+        <EmptyList />
+      )}
     </>
   );
 };

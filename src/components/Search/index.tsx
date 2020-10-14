@@ -1,10 +1,28 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react';
 import { SearchForm } from './styles';
 
-const Search: React.FC = () => {
+interface SearchProps {
+  handleInputChange: (e: any) => void;
+  onSearchSubmit: () => void;
+}
+
+const Search: React.FC<SearchProps> = ({
+  handleInputChange,
+  onSearchSubmit,
+}: SearchProps) => {
   return (
-    <SearchForm>
-      <input placeholder="Digite o nome do filme" />
+    <SearchForm
+      onSubmit={(e: any) => {
+        e.preventDefault();
+        onSearchSubmit();
+      }}
+    >
+      <input
+        onChange={handleInputChange}
+        placeholder="Digite o nome do filme"
+        autoFocus
+      />
       <button type="submit">Buscar</button>
     </SearchForm>
   );

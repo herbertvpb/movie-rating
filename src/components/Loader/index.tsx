@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoaderContainer, Spinner } from './styles';
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
     <LoaderContainer>
       <Spinner />

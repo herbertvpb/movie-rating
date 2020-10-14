@@ -5,12 +5,7 @@ import { MoviesContainer } from './styles';
 import EmptyList from '../../components/EmptyList';
 import api from '../../services/api';
 import Loader from '../../components/Loader';
-
-interface IMovie {
-  id: string;
-  title: string;
-  image: string;
-}
+import { IMovie } from './types';
 
 const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState<string>();
@@ -18,10 +13,12 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const searchMovies = async () => {
-    setLoading(true);
-    const { data } = await api.get(`/search/${searchValue}`);
-    setMovies(data.titles);
-    setLoading(false);
+    if (searchValue) {
+      setLoading(true);
+      const { data } = await api.get(`/search/${searchValue}`);
+      setMovies(data.titles);
+      setLoading(false);
+    }
   };
 
   const handleInputChange = async (e: any) => setSearchValue(e.target.value);

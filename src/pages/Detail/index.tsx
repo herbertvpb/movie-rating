@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../../components/Loader';
 import { Rating } from '../../components/Rating';
 import api from '../../services/api';
@@ -11,36 +12,8 @@ import {
   MovieInfo,
   RatingContainer,
 } from './styles';
-
-interface ITrailer {
-  id: string;
-  link: string;
-}
-
-interface IActor {
-  actor: string;
-  // eslint-disable-next-line camelcase
-  actor_id: string;
-  character: string;
-}
-
-interface IMovieDetails {
-  id: string;
-  title: string;
-  year: string;
-  length: string;
-  rating: string;
-  poster: string;
-  plot: string;
-  trailer: ITrailer;
-  cast: IActor[];
-  reducedCast: string;
-}
-
-interface IRating {
-  subject: string;
-  rating: number;
-}
+import 'react-toastify/dist/ReactToastify.css';
+import { IActor, IMovieDetails, IRating } from './types';
 
 const Detail: React.FC = () => {
   const { movie } = useParams();
@@ -76,7 +49,10 @@ const Detail: React.FC = () => {
   };
 
   const handleConfirmRating = () => {
-    history.push('/');
+    toast('Avaliação enviada com sucesso!');
+    setTimeout(() => {
+      history.push('/');
+    }, 5000);
   };
 
   const handleRatingChange = (subject: string, rating: number) => {
@@ -99,6 +75,7 @@ const Detail: React.FC = () => {
 
   return (
     <div>
+      <ToastContainer />
       {loading && <Loader />}
       {!loading && movieDetails && (
         <>
